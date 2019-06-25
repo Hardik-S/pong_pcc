@@ -12,10 +12,14 @@ package pongV1_3;
 
 import java.applet.Applet;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Scanner;
+import java.util.Timer;
 
 public class pongA extends Applet implements Runnable, KeyListener{ 	//this will be a runnable, constantly listening applet
 	final int WIDTH = 1200, HEIGHT = 600; 	//constant (final int) defines background size
@@ -23,18 +27,23 @@ public class pongA extends Applet implements Runnable, KeyListener{ 	//this will
 	PaddleA playerOne;
 	PaddleB playerTwo;
 	Puck myPuck;
-	boolean gameStart;
 	Graphics gfx; 		//buffer to combat blinking
 	Image myImage;
 	int redPoints;
 	int bluePoints;
-	
+	int delay;
+	boolean gameStart;
+	boolean gameEnd;
+	int playTo;
 	
 	public void init() {
 		this.resize(WIDTH,HEIGHT);
 		gameStart = false;
+		gameEnd = false;
+		playTo = 5;
 		redPoints = 0;
 		bluePoints = 0;
+		delay = 1000;
 		
 		this.addKeyListener(this); 		//pongA is the key listener
 		
@@ -52,6 +61,14 @@ public class pongA extends Applet implements Runnable, KeyListener{ 	//this will
 		
 	}
 	
+	public static void main(String[] args) {
+	    Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+	    System.out.println("Enter username");
+
+	    String userName = myObj.nextLine();  // Read user input
+	    System.out.println("Username is: " + userName);  // Output user input 
+	  }
+	
 	public void paint(Graphics g) {
 		
 		gfx.setColor(Color.black);
@@ -60,45 +77,87 @@ public class pongA extends Applet implements Runnable, KeyListener{ 	//this will
 		
 		if(!gameStart) {
 			gfx.setColor(Color.white);
-			gfx.drawString("W E L C O M E   T O   P O N G !", (WIDTH/2)-85, (HEIGHT/2)-200);
-			gfx.drawString("H I T   S P A C E   T O   S T A R T !", (WIDTH/2)-90, (HEIGHT/2)-170);
-			gfx.drawString("C O N T R O L S :", (WIDTH/2)-45, (HEIGHT/2)-140);
-			gfx.drawString("W / S          ↑ / ↓", (WIDTH/2)-40, (HEIGHT/2)-110);
+			gfx.setFont(new Font("Courier New",Font.PLAIN,30)); //big font 
+			gfx.drawString("W E L C O M E   T O   P O N G !", (WIDTH/2)-280, (HEIGHT/2)-200);
+			gfx.drawString("F I R S T   T O   5   P O I N T S   W I N S!", (WIDTH/2)-380, (HEIGHT/2)-160);
+
+			gfx.drawString("C O N T R O L S :", (WIDTH/2)-180, (HEIGHT/2)-120);
+			gfx.drawString("W / S       ↑ / ↓", (WIDTH/2)-180, (HEIGHT/2)-80);
+			
+			gfx.drawString("H I T   S P A C E   T O   S T A R T !", (WIDTH/2)-330, (HEIGHT/2)-10);
+			
+			gfx.setFont(new Font("Courier New",Font.PLAIN,20)); //smaller font
+			gfx.drawString("O R   P R E S S   ' B '   F O R   B E G I N N E R   M O D E", (WIDTH/2)-350, (HEIGHT/2)+20);
 
 		}
 		
 		if(myPuck.getX()<=0) { 	//if red scores render this	
 			myPuck.slowDown();
 			gfx.setColor(Color.red);
-			gfx.drawString("Red Scores!", (WIDTH/2)+270, (HEIGHT/2));
+			
+			
 			redPoints++;
+			System.out.println("Red Scores "+redPoints);
+			
 			myPuck.resetPuck();
+				if (redPoints==5) {
+					//myPuck.redVictory(g);
+					gfx.setFont(new Font("TimesRoman",Font.PLAIN,20));
+					gfx.drawString("R e d   W i n s !", (WIDTH/2)+270, (HEIGHT/2));
+					System.out.println("Red Wins "+redPoints+"-"+bluePoints);
+					gameEnd=true;
+					System.out.println("Game End");
+				}
+				else if (bluePoints==4 && redPoints==4) {
+					myPuck.lastPoint(g);
+				}
 		}
 		else if(myPuck.getX()>=1200) { 	//if blue scores render this
 			myPuck.slowDown();
 			gfx.setColor(Color.blue);
-			gfx.drawString("Blue Scores!", (WIDTH/2)-330, (HEIGHT/2));
+			
+			
 			bluePoints++; 
+			System.out.println("Blue Scores "+bluePoints);
+
 			myPuck.resetPuck();
+				if (bluePoints==5) {
+					//myPuck.blueVictory(g);
+					gfx.setFont(new Font("TimesRoman",Font.PLAIN,20));
+					gfx.drawString("B l u e   W i n s !", (WIDTH/2)-330, (HEIGHT/2));
+					System.out.println("Blue Wins "+bluePoints+"-"+redPoints);
+					gameEnd=true;
+					System.out.println("Game End");
+				}
+				else if (bluePoints==4 && redPoints==4) {
+					myPuck.lastPoint(g);
+				}
 		}
 				
 		else		//default, just render the puck and paddles
 			playerOne.draw(gfx);
 			playerTwo.draw(gfx);
-			if(gameStart) {		//wait game start before puck and halfway line
+			if(gameStart) {		//wait game start before drawing puck and halfway line
 				myPuck.draw(gfx);
 				gfx.setColor(Color.white);
 				gfx.fillRect(599, 0, 2, HEIGHT);
+				
+				gfx.setFont(new Font("TimesRoman",Font.PLAIN,15));
 				gfx.setColor(Color.blue);
 				gfx.drawString(""+bluePoints, 587, 50);
 				gfx.setColor(Color.red);			
 				gfx.drawString(""+redPoints, 605, 50);
 			}
 		g.drawImage(myImage,0,0,this);		//renders next frame before it happens
+
 	}	
 	
 	public void update(Graphics g) {
-		paint(g);
+		if (!gameEnd) {
+			paint(g);
+		}
+		else
+			System.out.println("xd");
 		
 	}
 
@@ -113,11 +172,12 @@ public class pongA extends Applet implements Runnable, KeyListener{ 	//this will
 				
 			
 			}	
-			
-			repaint();		//repaints before pause creating infinite loop
+			if (!gameEnd) {
+				repaint();		//repaints before pause creating infinite loop
+			}
 
 			try {
-				Thread.sleep(10); 	//sleeps for 10 milliseconds at the end every run
+				Thread.sleep(5); 	//sleeps for 5 milliseconds at the end every run
 			} catch (InterruptedException e) { 	//catch interrupted exception when sleeping
 				e.printStackTrace(); 	//lmk 
 			}
@@ -138,9 +198,7 @@ public class pongA extends Applet implements Runnable, KeyListener{ 	//this will
 		else if(e.getKeyCode()==KeyEvent.VK_S) {
 			playerTwo.setDownAcceleration(true);
 		}
-		else if(e.getKeyCode()==KeyEvent.VK_SPACE) {
-			gameStart = true;
-		}
+		
 	}
 
 	
@@ -157,10 +215,17 @@ public class pongA extends Applet implements Runnable, KeyListener{ 	//this will
 		else if(e.getKeyCode()==KeyEvent.VK_S) {
 			playerTwo.setDownAcceleration(false);
 		}
+		else if(e.getKeyCode()==KeyEvent.VK_SPACE) {
+			gameStart = true;
+			System.out.println("Game Started");
+		}
+		else if(e.getKeyCode()==KeyEvent.VK_B) {
+			myPuck.Beginner();
+			gameStart = true;
+		}
 	}
 	
 	public void keyTyped(KeyEvent e) {
 		
 	}
-
 }
