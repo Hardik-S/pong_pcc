@@ -8,6 +8,8 @@ package pongV1_3;
  * @author hardik shrestha
  * **
  * 6/27/2019
+ * current errors:
+ * none
  */
 
 import java.applet.Applet;
@@ -35,6 +37,7 @@ public class pongA extends Applet implements Runnable, KeyListener{ 	//this will
 	boolean gameStart;
 	boolean gameEnd;
 	int playTo;
+	Scanner myScanner;
 	
 	public void init() {
 		this.resize(WIDTH,HEIGHT);
@@ -61,13 +64,7 @@ public class pongA extends Applet implements Runnable, KeyListener{ 	//this will
 		
 	}
 	
-	public static void main(String[] args) {
-	    Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-	    System.out.println("Enter username");
-
-	    String userName = myObj.nextLine();  // Read user input
-	    System.out.println("Username is: " + userName);  // Output user input 
-	  }
+	
 	
 	public void paint(Graphics g) {
 		
