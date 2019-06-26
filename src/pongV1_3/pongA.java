@@ -98,7 +98,6 @@ public class pongA extends Applet implements Runnable, KeyListener{ 	//this will
 			
 			myPuck.resetPuck();
 				if (redPoints==5) {
-					//myPuck.redVictory(g);
 					gfx.setFont(new Font("TimesRoman",Font.PLAIN,20));
 					gfx.drawString("R e d   W i n s !", (WIDTH/2)+270, (HEIGHT/2));
 					System.out.println("Red Wins "+redPoints+"-"+bluePoints);
@@ -119,7 +118,6 @@ public class pongA extends Applet implements Runnable, KeyListener{ 	//this will
 
 			myPuck.resetPuck();
 				if (bluePoints==5) {
-					//myPuck.blueVictory(g);
 					gfx.setFont(new Font("TimesRoman",Font.PLAIN,20));
 					gfx.drawString("B l u e   W i n s !", (WIDTH/2)-330, (HEIGHT/2));
 					System.out.println("Blue Wins "+bluePoints+"-"+redPoints);
@@ -200,6 +198,7 @@ public class pongA extends Applet implements Runnable, KeyListener{ 	//this will
 
 	
 	public void keyReleased(KeyEvent e) {
+		
 		if(e.getKeyCode()==KeyEvent.VK_UP){
 			playerOne.setUpAcceleration(false); //let go -> stop accelerate
 		}

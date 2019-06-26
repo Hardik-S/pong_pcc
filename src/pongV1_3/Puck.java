@@ -11,18 +11,27 @@ public class Puck {
 	double yVelocity;
 	double x;
 	double y;
+	double randomSpeed;
 	int rally;
-	Random myRandom = new Random();		
-	String pop;
-	/**int puckRedPoints;
-	int puckBluePoints; */
-	Graphics gfx;
-	Image myImage;
 	boolean noobPlayer;
 	boolean matchPoint;
 	
+	Random myRandom = new Random();		
+	String pop;
+	Graphics gfx;
+	Image myImage;
+	
+	public int add(int a, int b) {		//testing unit testing take out later
+		return a+b;
+	}
+	
 	public void init() {
 		gfx = myImage.getGraphics();
+	}
+	
+	public void Beginner() {
+		noobPlayer = true;
+		System.out.println("Game started in beginner mode");
 	}
 	
 	public Puck() {
@@ -34,7 +43,11 @@ public class Puck {
 		}
 		else {
 			xVelocity = getRandomSpeed() * getRandomDirection();
+			System.out.println("from puck: getRandomSpeed: "+randomSpeed);
+
 			yVelocity = getRandomSpeed() * getRandomDirection();
+			System.out.println("from puck 2: getRandomSpeed: "+randomSpeed);
+
 			
 			if (xVelocity<=1 || xVelocity >= -1) {
 				xVelocity = xVelocity*2;
@@ -51,13 +64,13 @@ public class Puck {
 			}
 		}
 		
-		
-		System.out.println("xVelocity: "+xVelocity+" yVelocity: "+yVelocity);
+		System.out.println("og xVelocity: "+xVelocity+" og yVelocity: "+yVelocity);
 		
 	}
 	
 	public double getRandomSpeed() {
-		return (Math.random()*3+1);
+		randomSpeed = (Math.random()*3+1);
+		return randomSpeed;
 	}
 	
 	public int getRandomDirection() {
@@ -69,23 +82,21 @@ public class Puck {
 	}
 	
 	public void draw(Graphics g) {
-		g.setColor(Color.cyan);
+		g.setColor(Color.cyan);						//i want ball radius to be 30
 		g.fillOval(((int)x-15), ((int)y-15), 30, 30); //radius is 15. top left corner effect gets neutralized by -15.
 		g.drawString(("Rally: "+String.valueOf(rally/2)), 1125 , 50);
-	/**	if (matchPoint) {
-			g.setColor(Color.YELLOW);
-			g.setFont(new Font("TimesRoman",Font.BOLD,15));
-			g.drawString("NEXT POINT WINS!", 300, 550);
-		}*/
 	}
+	
 	public void slowDown() { 		
 		xVelocity =1;
 	}
+	
 	public void resetPuck() {
 		x=600;
 		y=300;
 		rally=0;
 		if (noobPlayer) {
+			System.out.println("got here (reset)");
 			xVelocity = -1.5;
 			yVelocity = -0.8;
 		}
@@ -131,13 +142,10 @@ public class Puck {
 				if (x<1200) {
 					rally++;
 					x = x-20;
-
-			
 			}	
 		}				
 		}		
 	}
-	
 	
 	public void move() {
 		x += xVelocity;		//update movement
@@ -159,16 +167,10 @@ public class Puck {
 		return (int)y;
 	}
 
-	public void Beginner() {
-		noobPlayer = true;
-		System.out.println("Game started in beginner mode");
-	}
 	
 	public void lastPoint(Graphics g) {
 		System.out.println("SCORE IS 4-4!");
 		matchPoint = true;
 		
 	}
-
-	
 }
