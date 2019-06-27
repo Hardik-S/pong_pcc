@@ -19,6 +19,8 @@ import java.awt.event.KeyListener;
 import java.util.Scanner;
 
 public class pongA extends Applet implements Runnable, KeyListener{ 				//this will be a runnable, constantly listening applet
+	static final long serialVersionUID = 3532326746024682615L;
+	 
 	final int WIDTH = 1200, HEIGHT = 600; 											//constant (final int) defines background size
 	Thread myThread;																//our chosen path of execution >:D
 	PaddleA playerOne;																//red
