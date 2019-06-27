@@ -1,6 +1,11 @@
 package pongV1_3;
 
 //red paddle (right)
+/**
+ * This is better commented in PaddleB.java
+ * Please take a look at it instead.
+ * The code is simply mirrored for both paddles, however I only documented PaddleB (Player 2/ Blue Paddle) extensively.
+ */
 
 
 import java.awt.Color;
@@ -8,8 +13,8 @@ import java.awt.Graphics;
 
 public class PaddleA implements Paddle{
 	
-	double y; //Position of the paddle.
-	int x; //don't need double, will be static
+	double y; 
+	int x; 
 
 	double yVelocity;
 	
@@ -22,7 +27,7 @@ public class PaddleA implements Paddle{
 	public PaddleA(int player) {
 		upAcceleration = false;
 		downAcceleration = false;
-		y = 240;  	//given by (BackGround HEIGHT - paddle height) divided by 2 (because top left corner)
+		y = 240;  	
 		yVelocity = 0;
 		if (player==1)
 			x = 1160;
@@ -36,15 +41,15 @@ public class PaddleA implements Paddle{
 
 	public void move() {
 		if(upAcceleration) {
-			yVelocity -= 1; 		//might look strange but recall that 0,0 exists in top left
+			yVelocity -= 1; 		
 		}
 		else if(downAcceleration) {
-			yVelocity += 1;		// same concept
+			yVelocity += 1;		
 		}
 		else if(!upAcceleration && !downAcceleration) {		//implement friction so paddle slows down
 			yVelocity *= FRICTION;
 		}
-		if(yVelocity >= 8)	//caps speed
+		if(yVelocity >= 8)	
 			yVelocity =8;
 		else if (yVelocity <= -8)
 			yVelocity = -8;
@@ -53,20 +58,19 @@ public class PaddleA implements Paddle{
 		
 		if (y<0) 		//top limit
 			y=0;
-		else if (y>480)		//bottom limit
+		else if (y>480)		
 			y=480;
-			//yVelocity *= -1; wanted some sort of bounce effect. come back to it later
 	}
 	
-	public void setUpAcceleration(boolean input) { 		//sets up accel
+	public void setUpAcceleration(boolean input) { 		
 		upAcceleration = input;
 	}
 
-	public void setDownAcceleration(boolean input) {		//sets down accel
+	public void setDownAcceleration(boolean input) {		
 		downAcceleration = input;
 	}
 	public int getY() {
-		return (int)y; //return int value of y
+		return (int)y;
 	}
 
 }
