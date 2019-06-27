@@ -1,3 +1,8 @@
+/**
+ * Paddle Interface/ Template
+ * ~ready for final commit~
+ */
+
 package pongV1_3;
 
 import java.awt.Graphics;

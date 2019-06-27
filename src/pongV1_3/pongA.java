@@ -4,6 +4,7 @@
  * **
  * 6/27/2019
  * pongA for pong Applet
+ * ~ready for final commit~
  */
 
 package pongV1_3;
@@ -13,11 +14,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Scanner;
-import java.util.Timer;
 
 public class pongA extends Applet implements Runnable, KeyListener{ 				//this will be a runnable, constantly listening applet
 	final int WIDTH = 1200, HEIGHT = 600; 											//constant (final int) defines background size
@@ -25,7 +24,6 @@ public class pongA extends Applet implements Runnable, KeyListener{ 				//this w
 	PaddleA playerOne;																//red
 	PaddleB playerTwo;																//blue
 	Puck myPuck;
-	Audio myAudio;
 	Graphics gfx; 																	//buffer to combat blinking
 	Image myImage;																	//paints before render
 	int redPoints;
@@ -49,7 +47,6 @@ public class pongA extends Applet implements Runnable, KeyListener{ 				//this w
 		playerOne = new PaddleA(1);						//first player here 
 		playerTwo = new PaddleB(2);						//decides which side
 		myPuck = new Puck();
-		myAudio = new Audio();
 		
 		myImage = createImage(WIDTH, HEIGHT);
 		gfx = myImage.getGraphics();
@@ -145,9 +142,6 @@ public class pongA extends Applet implements Runnable, KeyListener{ 				//this w
 	public void update(Graphics g) {						//change screen on game end
 		if (!gameEnd) {
 			paint(g);
-		}
-		else {
-			myAudio.paint(g);
 		}
 	}
 	

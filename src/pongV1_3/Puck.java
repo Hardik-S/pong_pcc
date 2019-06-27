@@ -1,3 +1,9 @@
+/**
+ * Puck Class
+ * Where most of the logic is
+  * ~ready for final commit~
+ */
+
 package pongV1_3;
 
 import java.awt.Color;
@@ -19,8 +25,8 @@ public class Puck {
 	Graphics gfx;
 	Image myImage;
 	
-	public int add(int a, int b) {										//practice unit testing take out later
-		return a+b;
+	public int add(int a, int b) {										//for practice unit testing 
+		return a+b;														//would be deleted for shipping
 	}
 	
 	public void init() {

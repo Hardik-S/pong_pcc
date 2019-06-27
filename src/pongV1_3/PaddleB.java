@@ -1,3 +1,8 @@
+/**
+ * PaddleB
+ * The annotated paddle
+ * ~ready for final commit~
+ */
 package pongV1_3;
 
 //blue paddle (blue)

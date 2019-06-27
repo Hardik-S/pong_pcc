@@ -1,3 +1,8 @@
+/**
+ * PaddleA
+ * The lesser annotated paddle
+ * ~ready for final commit~
+ */
 package pongV1_3;
 
 //red paddle (right)
